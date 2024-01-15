@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import * as dayjs from 'dayjs';
+import { DateService } from './services/date/date.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ForritTest';
+
+  constructor(private dateService: DateService) {}
+
+  ngOnInit() {
+    this.dateService.setCurrentDate(dayjs())
+  }
 }
