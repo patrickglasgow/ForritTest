@@ -1,4 +1,19 @@
-<mwl-calendar-month-view
-[viewDate]="viewDate"
-[excludeDays]="excludeDays"
-></mwl-calendar-month-view>
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+    <div class="cal-cell-top">
+        <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+    </div>
+    <small style="margin: 5px">There are {{ day.events.length }} events on this day</small>
+</ng-template>
+
+<ng-template #loading>
+    <div class="text-center">
+      <i class="fas fa-spin fa-spinner fa-5x"></i> <br />
+      Loading events...
+    </div>
+</ng-template>
+
+<!-- [cellTemplate]="customCellTemplate" -->
+<div *ngIf="eventSubscription | async; else loading; let events">
+<mwl-calendar-month-view [viewDate]="viewDate" [excludeDays]="excludeDays"></mwl-calendar-month-view>
+</div>

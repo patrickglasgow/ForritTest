@@ -9,16 +9,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DateService } from './services/date/date.service';
 import { CalenderContainerComponent } from './calender-container/calender-container.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { EventService } from './services/event/event.service';
+import { EventComponent } from './event/event.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    CalenderContainerComponent
+    CalenderContainerComponent,
+    EventComponent
   ],
   imports: [
     BrowserModule,
@@ -31,9 +35,10 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatDialogModule,
   ],
-  providers: [DateService],
+  providers: [DateService, EventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DateService } from '../services/date/date.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { CalendarEvent } from 'angular-calendar';
+import { EventService } from '../services/event/event.service';
+import { EventComponent } from '../event/event.component';
 
 @Component({
   selector: 'app-calender-container',
@@ -14,14 +18,18 @@ export class CalenderContainerComponent implements OnInit {
   viewDate: Date = new Date();
   excludeDays: number[] = [0, 6];
 
-  constructor(private dateService: DateService) {
+  eventSubscription: Observable<CalendarEvent[]> = this.eventService.getEvents();
+
+  constructor(
+    private dateService: DateService,
+    private eventService: EventService,
+    public dialog: MatDialog) {
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 
   ngOnInit(): void {
     this.subscribeToDateChange();
@@ -33,6 +41,16 @@ export class CalenderContainerComponent implements OnInit {
     ).subscribe(datejs => {
       if (datejs){
         this.viewDate = datejs.toDate()
+      }
+    });
+  }
+
+  addNewEvent() {
+    const dialogRef = this.dialog.open(EventComponent, { restoreFocus: false });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: CalendarEvent) => {
+      if (result) {
+        this.eventService.addEvent(result);
       }
     });
   }
