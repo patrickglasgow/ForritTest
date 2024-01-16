@@ -3,15 +3,15 @@
     <div class="container">
       <div class="center">
         <span class="pr-15">
-          <button mat-raised-button color="secondary">
+          <button mat-raised-button color="secondary" id="previous-button" (click)="dateService.previousMonth()">
             <mat-icon>chevron_left</mat-icon>
           </button>
         </span>
         <span class="current-month">
-          {{(currentDate | async )?.format('MMMM, YYYY')}}
+          {{(currentMonth | async )?.format('MMMM, YYYY')}}
         </span>
         <span class="pl-15">
-          <button mat-raised-button color="secondary">
+          <button mat-raised-button color="secondary" id="next-button" (click)="dateService.nextMonth()">
             <mat-icon>chevron_right</mat-icon>
           </button>
         </span>

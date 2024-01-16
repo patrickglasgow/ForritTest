@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Dayjs } from 'dayjs';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DateService {
 
-  private currentDate = new BehaviorSubject<Dayjs| null>(null);
+  private currentMonth = new BehaviorSubject<Dayjs| null>(null);
 
-  constructor() { }
+  constructor() {}
 
-  getCurrentDate(): Observable<Dayjs|null> {
-    return this.currentDate.asObservable();
+  getCurrentMonth(): Observable<Dayjs|null> {
+    return this.currentMonth.asObservable();
   }
 
   setCurrentDate(date: Dayjs) {
-    this.currentDate.next(date);
+    this.currentMonth.next(date.startOf("month"));
   }
+
+  nextMonth() {
+    if (this.currentMonth.value) {
+      this.currentMonth.next(this.currentMonth.value.add(1, "month"));
+    }
+  }
+
+  previousMonth() {
+    if (this.currentMonth.value) {
+      this.currentMonth.next(this.currentMonth.value.subtract(1, "month"));
+    }
+  }
+
+  getToday = () => new Dayjs();
   
 }

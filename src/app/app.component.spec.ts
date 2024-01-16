@@ -5,8 +5,18 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import MockDate from 'mockdate';
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
 
 describe('AppComponent', () => {
+  beforeAll( () => {
+    dayjs.extend(utc);
+    MockDate.set('2024-01-15');
+  });
+
+  afterAll(() => MockDate.reset());
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -33,5 +43,23 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.current-month')?.textContent).toContain('January, 2024');
+  });
+
+  it('should render next month when next button clicked', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    (compiled.querySelector('#next-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.current-month')?.textContent).toContain('February, 2024');
+  });
+
+  it('should render next month when next button clicked', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    (compiled.querySelector('#previous-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.current-month')?.textContent).toContain('December, 2023');
   });
 });

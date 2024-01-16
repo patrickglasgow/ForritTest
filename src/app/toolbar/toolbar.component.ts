@@ -8,12 +8,11 @@ import { DateService } from '../services/date/date.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private dateService: DateService) { }
+  constructor(public dateService: DateService) { }
 
-  currentDate = this.dateService.getCurrentDate()
+  currentMonth = this.dateService.getCurrentMonth()
 
   ngOnInit(): void {
-    this.currentDate.subscribe(x => console.log(x?.format('MMMM')))
   }
 
 }

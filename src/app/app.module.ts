@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateService } from './services/date/date.service';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { DateService } from './services/date/date.service';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
+    MatDatepickerModule
   ],
   providers: [DateService],
   bootstrap: [AppComponent]
