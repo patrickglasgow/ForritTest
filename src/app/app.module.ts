@@ -10,16 +10,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateService } from './services/date/date.service';
+import { CalenderContainerComponent } from './calender-container/calender-container.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    CalenderContainerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Dayjs } from 'dayjs';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DateService {
 
-  private currentMonth = new BehaviorSubject<Dayjs| null>(null);
+  private currentMonth = new BehaviorSubject<Dayjs | null>(null);
 
-  constructor() {}
+  constructor() { }
 
-  getCurrentMonth(): Observable<Dayjs|null> {
+  getCurrentMonth(): Observable<Dayjs | null> {
     return this.currentMonth.asObservable();
   }
 
@@ -31,6 +31,4 @@ export class DateService {
     }
   }
 
-  getToday = () => new Dayjs();
-  
 }

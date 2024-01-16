@@ -9,6 +9,11 @@ import MockDate from 'mockdate';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 
+
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalenderContainerComponent } from './calender-container/calender-container.component';
+
 describe('AppComponent', () => {
   beforeAll( () => {
     dayjs.extend(utc);
@@ -24,10 +29,15 @@ describe('AppComponent', () => {
         MatToolbarModule,
         MatIconModule,
         MatButtonModule,
+        CalendarModule.forRoot({
+          provide: DateAdapter,
+          useFactory: adapterFactory,
+        }),
       ],
       declarations: [
         AppComponent,
-        ToolbarComponent
+        ToolbarComponent,
+        CalenderContainerComponent
       ],
     }).compileComponents();
   });
@@ -61,5 +71,12 @@ describe('AppComponent', () => {
     (compiled.querySelector('#previous-button') as HTMLElement)?.click();
     fixture.detectChanges();
     expect(compiled.querySelector('.current-month')?.textContent).toContain('December, 2023');
+  });
+
+  it('should render current month calendar', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.cal-month-view')).toBeDefined();
   });
 });
