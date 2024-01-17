@@ -4,6 +4,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ToolbarComponent } from './toolbar.component';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
@@ -15,6 +16,10 @@ describe('ToolbarComponent', () => {
         MatToolbarModule,
         MatIconModule,
         MatButtonModule,
+        MatDialogModule
+      ],
+      providers:[
+        { provide: MatDialogRef, useValue: null }
       ],
       declarations: [ ToolbarComponent ]
     })
