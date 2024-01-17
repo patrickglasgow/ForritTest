@@ -52,6 +52,19 @@ export class EventComponent implements OnInit {
       this.errors.push("Title is required.");
     }
 
+    if (!this.event.start) {
+      result = false;
+      this.errors.push("Date is required.")
+    }
+
+    if (!this.startTimeHolder) {
+      this.errors.push("Start time is required.")
+    }
+
+    if (!this.endTimeHolder) {
+      this.errors.push("End time is required.")
+    }
+
     return result;
   }
 

@@ -47,7 +47,28 @@ describe('EventComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     (compiled.querySelector('#save-button') as HTMLElement)?.click();
     fixture.detectChanges();
-    expect(compiled.querySelector('.error')?.textContent).toContain('Title is required.');
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('Title is required.');
+  });
+
+  it('save without date shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('Date is required.');
+  });
+
+  it('save without start time shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('Start time is required.');
+  });
+
+  it('save without end time shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('End time is required.');
   });
 
 
