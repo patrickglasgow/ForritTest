@@ -18,7 +18,7 @@ import { EventService } from './services/event/event.service';
 import { EventComponent } from './event/event.component';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatInputModule,
     MatNativeDateModule
   ],
-  providers: [DateService, EventService],
+  providers: [DateService, EventService,
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
