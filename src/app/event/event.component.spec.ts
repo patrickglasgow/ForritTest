@@ -71,5 +71,42 @@ describe('EventComponent', () => {
     expect(compiled.querySelector('.error-container')?.textContent).toContain('End time is required.');
   });
 
+  it('save with valid date but at the weekend shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    component.event.start = new Date('2024-01-20T00:00:00Z');
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('Date must be Monday - Friday.');
+  });
+
+  it('save with valid date but starting before 9 shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    component.event.start = new Date('2024-01-19T00:00:00Z');
+    component.startTimeHolder = '08:59';
+    component.endTimeHolder = '09:30';
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('Appointment must be between 9AM and 5PM.');
+  });
+
+  it('save with valid date but finishing after 5 shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    component.event.start = new Date('2024-01-19T00:00:00Z');
+    component.startTimeHolder = '09:00';
+    component.endTimeHolder = '17:01';
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('Appointment must be between 9AM and 5PM.');
+  });
+
+  it('save with valid date on the bounds shows no error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    component.event.start = new Date('2024-01-19T00:00:00Z');
+    component.startTimeHolder = '09:00';
+    component.endTimeHolder = '17:00';
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).not.toContain('Appointment must be between 9AM and 5PM.');
+  });
 
 });

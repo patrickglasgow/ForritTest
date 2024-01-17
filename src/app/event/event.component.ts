@@ -55,17 +55,45 @@ export class EventComponent implements OnInit {
     if (!this.event.start) {
       result = false;
       this.errors.push("Date is required.")
+    } else {
+      if (!this.validateDays()){
+        this.errors.push("Date must be Monday - Friday.");
+        result = false;
+      }
     }
 
     if (!this.startTimeHolder) {
+      result = false;
       this.errors.push("Start time is required.")
-    }
+    } 
 
     if (!this.endTimeHolder) {
+      result = false;
       this.errors.push("End time is required.")
     }
 
+    if (this.endTimeHolder && this.startTimeHolder){  
+      if (!this.validateTimes()) {
+        this.errors.push("Appointment must be between 9AM and 5PM.");
+        result = false;
+      }
+    }
+
     return result;
+  }
+
+  private validateTimes(): Boolean {
+    return this.validateBetween9and5(this.event.start.getHours(), this.event.start.getMinutes()) && this.validateBetween9and5(this.event.end?.getHours() || 0, this.event.end?.getMinutes() || 0);
+     
+  }
+
+  private validateBetween9and5(hour: number, minute: number) {
+    return hour >= 9 && (hour < 17 || (hour === 17 && minute === 0));
+  }
+
+  private validateDays () {
+    var day = this.event.start.getDay()
+    return day > 0 && day < 6;
   }
 
   private clearErrors() {
