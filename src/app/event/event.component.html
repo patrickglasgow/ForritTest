@@ -11,7 +11,7 @@
         </mat-form-field>
         <mat-form-field >
             <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="datepicker" [(ngModel)]="event.start">
+            <input matInput [min]="minDate" [matDatepicker]="datepicker" [(ngModel)]="event.start">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker>
@@ -23,16 +23,17 @@
           </mat-form-field>
           <mat-form-field class="pt-10">
             <mat-label>Start time</mat-label>
-            <input matInput type="time" [(ngModel)]="startTimeHolder">
+            <input matInput type="time" min="09:00" max="17:00" [(ngModel)]="startTimeHolder">
           </mat-form-field>
           <mat-form-field>
             <mat-label>End time</mat-label>
-            <input matInput type="time"  [(ngModel)]="endTimeHolder">
+            <input matInput type="time" min="09:00" max="17:00" [(ngModel)]="endTimeHolder">
           </mat-form-field>
     </div>
+    <div *ngFor="let error of errors" color="warning" class="error">{{error}}</div>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="deleteEvent()">Delete</button>
     <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-button color="primary" (click)="saveEvent()">Save</button>
+    <button mat-button id="save-button" color="primary" (click)="saveEvent()">Save</button>
 </div>

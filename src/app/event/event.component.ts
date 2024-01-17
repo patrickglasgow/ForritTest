@@ -9,7 +9,10 @@ import { CalendarEvent } from 'angular-calendar';
 })
 export class EventComponent implements OnInit {
 
+  errors: string[] = [];
+
   event: CalendarEvent;
+  minDate = new Date(Date.now());
 
   startTimeHolder: string | undefined;
   endTimeHolder: string | undefined;
@@ -19,20 +22,41 @@ export class EventComponent implements OnInit {
     } else {
       this.event = {} as CalendarEvent;
     }
-   }
+  }
 
   ngOnInit(): void {
   }
 
-  saveEvent(){
-    this.event.start.setHours(Number(this.startTimeHolder?.substring(0, 2)), Number(this.startTimeHolder?.substring(3, 5)));
-    this.event.end = new Date(this.event.start);
-    this.event.end.setHours(Number(this.endTimeHolder?.substring(0, 2)), Number(this.endTimeHolder?.substring(3, 5)));
-    this.dialogRef.close(this.event);
+  saveEvent() {
+    if (this.event.start) {
+      this.event.start.setHours(Number(this.startTimeHolder?.substring(0, 2)), Number(this.startTimeHolder?.substring(3, 5)));
+      this.event.end = new Date(this.event.start);
+      this.event.end.setHours(Number(this.endTimeHolder?.substring(0, 2)), Number(this.endTimeHolder?.substring(3, 5)));
+    }
+    this.clearErrors();
+    if (this.validateEvent()) {
+      this.dialogRef.close(this.event);
+    }
   }
-  deleteEvent(){}
-  cancel(){
+
+  deleteEvent() { }
+
+  cancel() {
     this.dialogRef.close();
+  }
+
+  private validateEvent() {
+    var result = true;
+    if (!this.event.title) {
+      result = false;
+      this.errors.push("Title is required.");
+    }
+
+    return result;
+  }
+
+  private clearErrors() {
+    this.errors = [];
   }
 
 }

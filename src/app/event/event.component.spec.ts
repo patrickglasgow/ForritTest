@@ -42,4 +42,13 @@ describe('EventComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('save without title shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error')?.textContent).toContain('Title is required.');
+  });
+
+
 });
