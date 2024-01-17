@@ -109,4 +109,16 @@ describe('EventComponent', () => {
     expect(compiled.querySelector('.error-container')?.textContent).not.toContain('Appointment must be between 9AM and 5PM.');
   });
 
+  it('save with conflicting existing event shows error', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    component.existingEvents.push({title: "Existing", start: new Date('2024-01-19T09:30:00Z'), end: new Date('2024-01-19T10:00:00Z')})
+    component.event.start = new Date('2024-01-19T09:00:00Z');
+    component.startTimeHolder = '09:00';
+    component.endTimeHolder = '09:45';
+    component.event.title = "New appointment";
+    (compiled.querySelector('#save-button') as HTMLElement)?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.error-container')?.textContent).toContain('Conflict: Existing');
+  });
+
 });

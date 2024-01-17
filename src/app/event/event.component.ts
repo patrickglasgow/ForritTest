@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
+import { EventService } from '../services/event/event.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-event',
@@ -9,6 +11,7 @@ import { CalendarEvent } from 'angular-calendar';
 })
 export class EventComponent implements OnInit {
 
+  existingEvents: CalendarEvent[] = [];
   errors: string[] = [];
 
   event: CalendarEvent;
@@ -16,7 +19,7 @@ export class EventComponent implements OnInit {
 
   startTimeHolder: string | undefined;
   endTimeHolder: string | undefined;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: CalendarEvent, private dialogRef: MatDialogRef<EventComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: CalendarEvent, private eventService: EventService, private dialogRef: MatDialogRef<EventComponent>) {
     if (data) {
       this.event = data;
     } else {
@@ -25,6 +28,7 @@ export class EventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchExistingEvents();
   }
 
   saveEvent() {
@@ -79,6 +83,12 @@ export class EventComponent implements OnInit {
       }
     }
 
+    if (this.event.start && this.event.end){
+      if (this.checkForConflictsWithExistingEvents(this.event.start, this.event.end)){
+        result = false;
+      }
+    }
+
     return result;
   }
 
@@ -99,5 +109,30 @@ export class EventComponent implements OnInit {
   private clearErrors() {
     this.errors = [];
   }
+
+  private fetchExistingEvents() {
+    this.eventService.getEvents().pipe(take(1)).subscribe(events => {
+      this.existingEvents = events;
+    })
+  }
+
+  private checkForConflictsWithExistingEvents(startDate: Date, endDate: Date) {
+    var hasConflicts = false;
+    this.existingEvents.forEach(existingEvent => {
+      if (this.doDatesOverlap(
+        { start: startDate, end: endDate },
+        { start: existingEvent.start, end: existingEvent.end!! }
+      )){
+        hasConflicts = true;
+        this.errors.push(`Conflict: ${existingEvent.title} ${existingEvent.start.toDateString()} ${existingEvent.start.toTimeString()} - ${existingEvent.end?.toTimeString()}`)
+      }
+    });
+    return hasConflicts;
+    
+  }
+
+  private doDatesOverlap(first: {start: Date, end: Date}, second: {start: Date, end: Date}){
+    return (first.start < second.end) && (second.start < first.end);
+}
 
 }
