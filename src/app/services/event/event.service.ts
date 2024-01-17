@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 
 const localStorageKey = 'events';
 
@@ -15,7 +15,15 @@ export class EventService {
   constructor() { }
 
   getEvents() {
-    return this.events.asObservable();
+    return this.events.asObservable().pipe(map((events => {
+      events.forEach(event => {
+        event.start = new Date(event.start);
+        if (event.end){
+          event.end = new Date(event.end);
+        }
+      });
+      return events;
+    })));
   }
 
   addEvent(newEvent: CalendarEvent) {

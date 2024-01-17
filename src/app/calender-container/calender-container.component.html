@@ -3,7 +3,12 @@
         <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
         <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
     </div>
-    <small style="margin: 5px">There are {{ day.events.length }} events on this day</small>
+    <div *ngFor="let event of day.events" class="column border-bottom">
+        <small>{{event.title}}</small>
+        <small>{{event.meta}}</small>
+        <small>{{event.start | date: 'shortTime'}}-{{event.end  | date: 'shortTime'}}</small>
+    </div>
+    
 </ng-template>
 
 <ng-template #loading>
@@ -13,7 +18,9 @@
     </div>
 </ng-template>
 
-<!-- [cellTemplate]="customCellTemplate" -->
 <div *ngIf="eventSubscription | async; else loading; let events">
-<mwl-calendar-month-view [viewDate]="viewDate" [excludeDays]="excludeDays"></mwl-calendar-month-view>
+<mwl-calendar-month-view [viewDate]="viewDate"
+    [excludeDays]="excludeDays"
+    [events]="events"
+    [cellTemplate]="customCellTemplate"></mwl-calendar-month-view>
 </div>

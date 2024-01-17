@@ -33,6 +33,8 @@ export class CalenderContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToDateChange();
+    this.eventSubscription.subscribe(x =>
+      console.log(x))
   }
 
   subscribeToDateChange() {

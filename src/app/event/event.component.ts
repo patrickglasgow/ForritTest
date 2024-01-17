@@ -25,9 +25,9 @@ export class EventComponent implements OnInit {
   }
 
   saveEvent(){
-    this.event.start.setHours(Number(this.startTimeHolder?.substring(0, 1)), Number(this.startTimeHolder?.substring(3, 4)));
+    this.event.start.setHours(Number(this.startTimeHolder?.substring(0, 2)), Number(this.startTimeHolder?.substring(3, 5)));
     this.event.end = new Date(this.event.start);
-    this.event.end.setHours(Number(this.endTimeHolder?.substring(0, 1)), Number(this.endTimeHolder?.substring(3, 4)));
+    this.event.end.setHours(Number(this.endTimeHolder?.substring(0, 2)), Number(this.endTimeHolder?.substring(3, 5)));
     this.dialogRef.close(this.event);
   }
   deleteEvent(){}
