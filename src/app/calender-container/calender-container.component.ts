@@ -45,15 +45,5 @@ export class CalenderContainerComponent implements OnInit {
     });
   }
 
-  addNewEvent() {
-    const dialogRef = this.dialog.open(EventComponent, { restoreFocus: false });
-
-    dialogRef.afterClosed().pipe(take(1)).subscribe((result: CalendarEvent) => {
-      if (result) {
-        this.eventService.addEvent(result);
-      }
-    });
-  }
-
 
 }

@@ -16,6 +16,9 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { EventService } from './services/event/event.service';
 import { EventComponent } from './event/event.component';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,9 @@ import { EventComponent } from './event/event.component';
     MatButtonModule,
     MatDatepickerModule,
     MatDialogModule,
+    FormsModule,
+    MatInputModule,
+    MatNativeDateModule
   ],
   providers: [DateService, EventService],
   bootstrap: [AppComponent]

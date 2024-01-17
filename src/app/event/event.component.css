@@ -1,0 +1,10 @@
+:host ::ng-deep .mdc-text-field__input::-webkit-calendar-picker-indicator {
+    display: block;
+}
+
+.datepicker {
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

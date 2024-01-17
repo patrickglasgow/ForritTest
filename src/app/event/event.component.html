@@ -1,1 +1,38 @@
-<p>event works!</p>
+<h1 mat-dialog-title>Appointment</h1>
+<div mat-dialog-content>
+    <div class="column">
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput [(ngModel)]="event.title">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <input matInput [(ngModel)]="event.meta">
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datepicker" [(ngModel)]="event.start">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="pt-10">
+            <mat-label>Start time</mat-label>
+            <input matInput type="time">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>End time</mat-label>
+            <input matInput type="time">
+          </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="deleteEvent()">Delete</button>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button color="primary" (click)="saveEvent()">Save</button>
+</div>
